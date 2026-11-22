@@ -16,7 +16,7 @@ public class StudentService {
 
     public Student createStudent(Student studentReq){
         //business logic
-        Student Resp = studentRepository.saveStudent(studentReq);
+        Student Resp = studentRepository.save(studentReq);
         return Resp;
 
     }

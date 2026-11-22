@@ -1,23 +1,12 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Student;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
-public class StudentRepository {
-
-    public Student saveStudent(Student student){
-        //save to db
-        Student s1 = new Student();
-
-        s1.setId(1L);
-        s1.setName("Ansh");
-        s1.setAge(20);
-        s1.setEmail("ansh@gmail.com");
-        s1.setRollNo(5);
-        s1.setSubject("Spring Boot");
-
-        return s1;
-    }
+//jpa will creates its obj and it will be managed by spring
+//@Repository
+public interface StudentRepository extends JpaRepository<Student, Long> {
 
 }
