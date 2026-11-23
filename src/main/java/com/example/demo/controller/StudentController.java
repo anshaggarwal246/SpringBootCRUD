@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
@@ -24,4 +27,25 @@ public class StudentController {
         Student createdStudent = studentService.createStudent(student);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdStudent);
     }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<Student> getStudent(@PathVariable Long id){
+        Optional<Student> studentResp = studentService.getStudent(id);
+
+        if(!studentResp.isPresent()) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(studentResp.get());
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Student>> getAllStudent(){
+        List<Student> studentList = studentService.getAllStudent();
+
+        if(studentList.isEmpty()) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(studentList);
+
+    }
+
+    
+    
 }
