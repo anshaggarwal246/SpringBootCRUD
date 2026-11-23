@@ -35,4 +35,19 @@ public class StudentService {
         return studentList;
 
     }
+
+    public Student updateStudent(Long id, Student student){
+         Optional<Student> existingStudent = studentRepository.findById(id);
+
+         if(existingStudent.isEmpty()) return null;
+
+         Student studentToSave = existingStudent.get();
+         studentToSave.setName(student.getName());
+         studentToSave.setRollNo(student.getRollNo());
+         studentToSave.setEmail(student.getEmail());
+         studentToSave.setAge(student.getAge());
+         studentToSave.setSubject(student.getSubject());
+
+         return studentRepository.save(studentToSave);
+    }
 }

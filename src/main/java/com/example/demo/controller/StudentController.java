@@ -17,35 +17,39 @@ public class StudentController {
     private StudentService studentService;
 
     @Autowired
-    public StudentController(StudentService studentService)
-    {
+    public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Student> createStudent(@RequestBody Student student){
+    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
         Student createdStudent = studentService.createStudent(student);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdStudent);
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable Long id){
+    public ResponseEntity<Student> getStudent(@PathVariable Long id) {
         Optional<Student> studentResp = studentService.getStudent(id);
 
-        if(!studentResp.isPresent()) return ResponseEntity.notFound().build();
+        if (!studentResp.isPresent()) return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok(studentResp.get());
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Student>> getAllStudent(){
+    public ResponseEntity<List<Student>> getAllStudent() {
         List<Student> studentList = studentService.getAllStudent();
 
-        if(studentList.isEmpty()) return ResponseEntity.notFound().build();
+        if (studentList.isEmpty()) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(studentList);
 
     }
 
-    
-    
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id,
+                                                 @RequestBody Student student) {
+        Student studentResp = studentService.updateStudent(id, student);
+        return ResponseEntity.ok(studentResp);
+
+    }
 }
