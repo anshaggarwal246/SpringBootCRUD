@@ -19,25 +19,28 @@ public class StudentService {
 
     public Student createStudent(Student studentReq) {
         //business logic
+
+        //by default it should be false no matter if someone passes it in body or not
+        studentReq.setDeleted(false);
         Student Resp = studentRepository.save(studentReq);
         return Resp;
 
     }
 
     public Optional<Student> getStudent(Long id) {
-        Optional<Student> studentResp = studentRepository.findById(id);
+        Optional<Student> studentResp = studentRepository.findByIdAndDeletedIsFalse(id);
 
         return studentResp;
     }
 
     public List<Student> getAllStudent() {
-        List<Student> studentList = studentRepository.findAll();
+        List<Student> studentList = studentRepository.findByDeletedIsFalse();
         return studentList;
 
     }
 
     public Student updateStudent(Long id, Student student){
-         Optional<Student> existingStudent = studentRepository.findById(id);
+         Optional<Student> existingStudent = studentRepository.findByIdAndDeletedIsFalse(id);
 
          if(existingStudent.isEmpty()) return null;
 
@@ -47,6 +50,9 @@ public class StudentService {
          studentToSave.setEmail(student.getEmail());
          studentToSave.setAge(student.getAge());
          studentToSave.setSubject(student.getSubject());
+
+         //doesnt really matter
+        studentToSave.setDeleted(false);
 
          return studentRepository.save(studentToSave);
     }
@@ -59,4 +65,17 @@ public class StudentService {
         studentRepository.deleteById(id);
         return true;
     }
+
+    public boolean deleteStudentSoft(Long id){
+        Optional<Student> existingStudent = studentRepository.findByIdAndDeletedIsFalse(id);
+
+        if(existingStudent.isEmpty()) return false;
+
+        Student studentToSave = existingStudent.get();
+        studentToSave.setDeleted(true);
+        studentRepository.save(studentToSave);
+
+        return true;
+    }
+
 }

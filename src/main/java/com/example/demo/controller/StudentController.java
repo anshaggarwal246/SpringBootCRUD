@@ -60,4 +60,13 @@ public class StudentController {
         if(isDeleted) return ResponseEntity.ok("DELETED");
         return ResponseEntity.notFound().build();
     }
+
+    @PatchMapping("/delete-soft/{id}")
+    public ResponseEntity<String> deleteStudentSoft(@PathVariable Long id)
+    {
+        Boolean isDeleted = studentService.deleteStudentSoft(id);
+
+        if(!isDeleted) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok("Record Deleted");
+    }
 }
