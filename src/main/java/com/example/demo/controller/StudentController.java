@@ -27,8 +27,11 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdStudent);
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable Long id) {
+    //two ways to getting anything -> path varibale and query parameters
+    //but the thing in request para is that the variable name sending and receiving should be same
+
+    @GetMapping("/get")
+    public ResponseEntity<Student> getStudent(@RequestParam Long id) {
         Optional<Student> studentResp = studentService.getStudent(id);
 
         if (!studentResp.isPresent()) return ResponseEntity.notFound().build();
@@ -45,24 +48,24 @@ public class StudentController {
 
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id,
+    @PutMapping("/update")
+    public ResponseEntity<Student> updateStudent(@RequestParam Long id,
                                                  @RequestBody Student student) {
         Student studentResp = studentService.updateStudent(id, student);
         return ResponseEntity.ok(studentResp);
 
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteStudent(@PathVariable Long id){
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteStudent(@RequestParam Long id){
         Boolean isDeleted = studentService.deleteStudent(id);
 
         if(isDeleted) return ResponseEntity.ok("DELETED");
         return ResponseEntity.notFound().build();
     }
 
-    @PatchMapping("/delete-soft/{id}")
-    public ResponseEntity<String> deleteStudentSoft(@PathVariable Long id)
+    @PatchMapping("/delete-soft")
+    public ResponseEntity<String> deleteStudentSoft(@RequestParam Long id)
     {
         Boolean isDeleted = studentService.deleteStudentSoft(id);
 
